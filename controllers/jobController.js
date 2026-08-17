@@ -28,9 +28,11 @@ export const createJob = async (req, res) => {
     });
   } catch (error) {
     console.error("Create Job Error:", error);
+
     res.status(500).json({
       success: false,
       message: "Server Error",
+      error: error.message,
     });
   }
 };
@@ -38,7 +40,7 @@ export const createJob = async (req, res) => {
 // Get all jobs
 export const getJobs = async (req, res) => {
   try {
-    const jobs = await Job.findAll();
+    const jobs = await Job.find().sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -46,9 +48,11 @@ export const getJobs = async (req, res) => {
     });
   } catch (error) {
     console.error("Get Jobs Error:", error);
+
     res.status(500).json({
       success: false,
       message: "Server Error",
+      error: error.message,
     });
   }
 };

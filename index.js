@@ -82,23 +82,25 @@ app.use((req, res) => {
 // ===============================
 
 app.use((err, req, res, next) => {
-    console.error("\n❌❌ GLOBAL ERROR ❌❌");
-    console.error("Message:", err.message);
-    console.error("Stack:", err.stack);
-    console.error("========================\n");
+  console.error("\n❌❌ GLOBAL ERROR ❌❌");
 
-    const isMulterError = err instanceof multer.MulterError;
+  console.error("Full Error:", err);
+  console.error("Message:", err?.message);
+  console.error("Stack:", err?.stack);
+  console.error("Name:", err?.name);
 
-    const statusCode = isMulterError
-        ? 400
-        : err.statusCode || 500;
+  console.error("========================\n");
 
-    res.status(statusCode).json({
-        success: false,
-        message: isMulterError
-            ? err.message
-            : err.message || "Internal server error",
-    });
+  const isMulterError = err instanceof multer.MulterError;
+
+  const statusCode = isMulterError
+    ? 400
+    : err?.statusCode || 500;
+
+  res.status(statusCode).json({
+    success: false,
+    message: err?.message || "Internal server error",
+  });
 });
 
 // ===============================

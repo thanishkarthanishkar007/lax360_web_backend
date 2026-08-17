@@ -4,8 +4,9 @@ import { saveCareerToSheet } from "../utils/googleSheets.js";
 
 export const applyJob = async (req, res) => {
   try {
-    // console.log("BODY:", req.body);
-    // console.log("FILE:", req.file);
+    console.log("========== APPLY JOB ==========");
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
 
     const {
       firstName,
@@ -26,11 +27,9 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    // Correct Cloudinary URL
     const resumeUrl = req.file.path;
-    // console.log(req.file.path);
 
-    // console.log("Resume URL:", resumeUrl);
+    console.log("Resume URL:", resumeUrl);
 
     const application = new Career({
       firstName,
@@ -45,34 +44,43 @@ export const applyJob = async (req, res) => {
       resume: resumeUrl,
     });
 
-    console.log("Saving application to PostgreSQL...");
-    await application.save();
-    console.log("Application saved to PostgreSQL.");
+    console.log("Saving application to MongoDB...");
 
-    // Return response promptly
+    await application.save();
+
+    console.log("Application saved to MongoDB.");
+
+    // Respond immediately
     res.status(201).json({
       success: true,
       message: "Application submitted successfully",
       resumeUrl,
     });
 
-    // Handle third-party calls in the background
-    console.log("Initiating background tasks: Email and Google Sheets...");
-    
+    // Background email
     sendCareerEmail(application)
-      .then(() => console.log("Success: Sent Career Email Notification"))
-      .catch(err => console.error("Error: Failed to send career email:", err.message));
+      .then(() => {
+        console.log("✅ Career email sent");
+      })
+      .catch((err) => {
+        console.error("❌ Career email error:", err);
+      });
 
+    // Background Google Sheet
     saveCareerToSheet(application)
-      .then(() => console.log("Success: Saved to Career Google Sheets"))
-      .catch(err => console.error("Error: Failed to save to career sheet:", err.message));
+      .then(() => {
+        console.log("✅ Application saved to Google Sheets");
+      })
+      .catch((err) => {
+        console.error("❌ Google Sheets error:", err);
+      });
 
   } catch (error) {
-    console.error("Apply Job Error:", error);
+    console.error("❌ Apply Job Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: error?.message || "Server Error",
     });
   }
 };

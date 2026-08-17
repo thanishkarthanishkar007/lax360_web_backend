@@ -36,8 +36,8 @@ const auth = new google.auth.GoogleAuth({
 });
 
 
-const enquirySheetId = process.env.ENQUIRY_SHEET_ID || "1OLBTNM96FcGOnwV7hbAfpm_8fqSDvVWwInyIb6bYiu0";
-const careerSheetId = process.env.CAREER_SHEET_ID || "13vHKSOaC44Oo_a8Z1TumMwQis-cqSkWguPOgndQbqU4";
+const enquirySheetId = process.env.ENQUIRY_SHEET_ID || "1tLgfoZ3vOUTuXFJgh4Gqc4PaV71nP6_OcBK9hZ9JPxE";
+const careerSheetId = process.env.CAREER_SHEET_ID || "1AgZ7EHVV3G9jRDd0PHnxsEdAjEIHlVJDxpsywn-9AzI";
 
 
 const getSheets = async () => {
