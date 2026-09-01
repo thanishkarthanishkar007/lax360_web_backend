@@ -84,3 +84,50 @@ export const applyJob = async (req, res) => {
     });
   }
 };
+
+// Get all applications (Admin)
+export const getApplications = async (req, res) => {
+  try {
+    const applications = await Career.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      applications,
+    });
+  } catch (error) {
+    console.error("Get Applications Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};
+
+// Delete an application (Admin)
+export const deleteApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const application = await Career.findByIdAndDelete(id);
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Application not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Application deleted successfully",
+      applicationId: id,
+    });
+  } catch (error) {
+    console.error("Delete Application Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};

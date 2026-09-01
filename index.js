@@ -8,6 +8,8 @@ import connectDB from "./database/dbConfig.js";
 import contactRoutes from "./Routes/contactRoutes.js";
 import careerRoutes from "./Routes/careerRoutes.js";
 import jobRoutes from "./Routes/jobRoutes.js";
+import serviceRoutes from "./Routes/serviceRoutes.js";
+import adminRoutes from "./Routes/adminRoutes.js";
 
 // Force IPv4
 dns.setDefaultResultOrder("ipv4first");
@@ -62,6 +64,10 @@ app.use("/api/contacts", contactRoutes);
 app.use("/api/careers", careerRoutes);
 
 app.use("/api/jobs", jobRoutes);
+
+app.use("/api/services", serviceRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 // ===============================
 // 404 HANDLER
