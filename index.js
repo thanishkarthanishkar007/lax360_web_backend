@@ -10,6 +10,7 @@ import careerRoutes from "./Routes/careerRoutes.js";
 import jobRoutes from "./Routes/jobRoutes.js";
 import serviceRoutes from "./Routes/serviceRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
+import dpdpRoutes from "./Routes/dpdpRoutes.js";
 
 // Force IPv4
 dns.setDefaultResultOrder("ipv4first");
@@ -68,6 +69,8 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/services", serviceRoutes);
 
 app.use("/api/admin", adminRoutes);
+
+app.use("/api/dpdp", dpdpRoutes);
 
 // ===============================
 // 404 HANDLER
