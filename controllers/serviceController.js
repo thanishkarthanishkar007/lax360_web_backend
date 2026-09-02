@@ -108,8 +108,8 @@ export const createService = async (req, res) => {
     }
 
     let imageUrl = image || "";
-    if (req.file && req.file.path) {
-      imageUrl = req.file.path;
+    if (req.file) {
+      imageUrl = req.file.path || req.file.secure_url || req.file.url || "";
     }
 
     const service = new Service({
@@ -154,8 +154,8 @@ export const updateService = async (req, res) => {
       updateData.image = image;
     }
 
-    if (req.file && req.file.path) {
-      updateData.image = req.file.path;
+    if (req.file) {
+      updateData.image = req.file.path || req.file.secure_url || req.file.url || "";
     }
 
     const service = await Service.findByIdAndUpdate(id, updateData, {
